@@ -1,0 +1,179 @@
+create a file that contains 1000 lines of random strings
+import random
+import string
+
+# Settings
+lines = 1000
+length = 16  # Length of each random string
+filename = "random_strings.txt"
+
+# Function to generate a random string
+def random_string(length):
+    characters = string.ascii_letters + string.digits
+    return ''.join(random.choices(characters, k=length))
+
+# Write to file
+with open(filename, 'w') as f:
+    for _ in range(lines):
+        f.write(random_string(length) + '\n')
+
+print(f"{lines} lines of random strings written to {filename}")
+
+ create a file that contains multiple lines of random strings and file size be 5mb 
+import os
+import random
+import string
+
+# Settings
+filename = "random_strings_5mb.txt"
+target_size = 5 * 1024 * 1024  # 5 MB in bytes
+line_length = 100  # Length of each random string per line
+
+# Function to generate a random string
+def random_string(length):
+    characters = string.ascii_letters + string.digits
+    return ''.join(random.choices(characters, k=length))
+
+# Create the file
+with open(filename, 'w') as f:
+    while f.tell() < target_size:
+        line = random_string(line_length)
+        f.write(line + '\n')
+
+# Confirm file size
+print(f"{filename} created with size {os.path.getsize(filename)} bytes")
+import os
+import random
+import string
+
+# Settings
+filename = "random_strings_5mb.txt"
+target_size = 5 * 1024 * 1024  # 5 MB in bytes
+line_length = 100  # Length of each random string per line
+
+# Function to generate a random string
+def random_string(length):
+    characters = string.ascii_letters + string.digits
+    return ''.join(random.choices(characters, k=length))
+
+# Create the file
+with open(filename, 'w') as f:
+    while f.tell() < target_size:
+        line = random_string(line_length)
+        f.write(line + '\n')
+
+# Confirm file size
+print(f"{filename} created with size {os.path.getsize(filename)} bytes")
+CREATE 10 files contains multiple lines of random strings and files size of each file must be 5 MB
+import os
+import random
+import string
+
+# Settings
+num_files = 10
+file_size_bytes = 5 * 1024 * 1024  # 5 MB
+line_length = 100  # Length of each line (excluding newline)
+output_dir = "random_files"
+
+# Ensure output directory exists
+os.makedirs(output_dir, exist_ok=True)
+
+# Function to generate a random string
+def random_string(length):
+    chars = string.ascii_letters + string.digits
+    return ''.join(random.choices(chars, k=length))
+
+# Generate files
+for i in range(1, num_files + 1):
+    filename = os.path.join(output_dir, f"random_file_{i}.txt")
+    with open(filename, 'w') as f:
+        while f.tell() < file_size_bytes:
+            line = random_string(line_length)
+            f.write(line + '\n')
+    print(f"Created {filename} - size: {os.path.getsize(filename)} bytes")
+
+
+create 5 files of size 1gb , 2gb 3gb, 4gb and 5gb files contains muliole lines of random strings
+import os
+import random
+import string
+
+# Settings
+file_sizes_gb = [1, 2, 3, 4, 5]
+line_length = 100  # Length of each line
+output_dir = "large_random_files"
+
+# Ensure output directory exists
+os.makedirs(output_dir, exist_ok=True)
+
+# Function to generate a random string
+def random_string(length):
+    chars = string.ascii_letters + string.digits
+    return ''.join(random.choices(chars, k=length))
+
+# Create each file
+for size_gb in file_sizes_gb:
+    target_size = size_gb * 1024 * 1024 * 1024  # Convert GB to bytes
+    filename = os.path.join(output_dir, f"random_{size_gb}GB.txt")
+    
+    print(f"Creating {filename} (~{size_gb} GB)...")
+    
+    with open(filename, 'w') as f:
+        while f.tell() < target_size:
+            line = random_string(line_length)
+            f.write(line + '\n')
+
+    actual_size = os.path.getsize(filename)
+    print(f"Finished {filename} - actual size: {actual_size / (1024 ** 3):.2f} GB")
+
+convert all the files of q4 intonuparcase one by one 
+import os
+
+input_dir = "large_random_files"
+output_dir = "large_random_files_uppercase"
+
+# Ensure output directory exists
+os.makedirs(output_dir, exist_ok=True)
+
+# List of files to process
+file_names = [f"random_{i}GB.txt" for i in range(1, 6)]
+
+# Convert each file to uppercase
+for file_name in file_names:
+    input_path = os.path.join(input_dir, file_name)
+    output_path = os.path.join(output_dir, file_name.replace(".txt", "_UPPER.txt"))
+
+    print(f"Processing {input_path} -> {output_path}")
+
+    with open(input_path, 'r') as infile, open(output_path, 'w') as outfile:
+        for line in infile:
+            outfile.write(line.upper())
+
+    print(f"Finished: {output_path}"
+
+convert all the files of Q4 into uparcase parallel using meliti -treading 
+import os
+from concurrent.futures import ThreadPoolExecutor
+
+input_dir = "large_random_files"
+output_dir = "large_random_files_uppercase_parallel"
+os.makedirs(output_dir, exist_ok=True)
+
+# Files to process
+file_names = [f"random_{i}GB.txt" for i in range(1, 6)]
+
+def convert_file_to_uppercase(file_name):
+    input_path = os.path.join(input_dir, file_name)
+    output_path = os.path.join(output_dir, file_name.replace(".txt", "_UPPER.txt"))
+    
+    print(f"Starting conversion: {input_path}")
+
+    with open(input_path, 'r') as infile, open(output_path, 'w') as outfile:
+        for line in infile:
+            outfile.write(line.upper())
+
+    print(f"Finished conversion: {output_path}")
+
+# Run in parallel
+with ThreadPoolExecutor(max_workers=5) as executor:
+    executor.map(convert_file_to_uppercase, file_names)
